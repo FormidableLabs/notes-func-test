@@ -1,0 +1,22 @@
+language:
+  - node_js
+
+node_js:
+  - 0.10
+
+env:
+  global:
+    # NOTE: **Cannot** have a space after `:` character in JSON string or else
+    # YAML parser will fail to parse correctly.
+    - ROWDY_OPTIONS='{ "clientLogger":true }'
+    - secure: AGp6GBDg/gasg7B5CtRdtFvLYsnR+UcJGDzoRO/fMPoTcT33ndptdJZYTZTYcuiZaHlpt9U2D+ApyG21FqyMpoDWEXCFWBGBWmpcQZPmLUSArgR0Sn8UGCtI20xMOs5u0weS09a+pWqCpvS5p7hlK4WaMMhWmGXs5/ltCcgqKrQ=
+    - secure: bfPXtyAaqq4vRPRa4mureeqKh8Q6yZItyiJfLh5SoDLG0hFR1twLorbduYSDH47WljYOaiyxRy+YuVSyDtQEzK6Bq2cRrIhCGVwIPAzWGltsmCKOuWOziD3BL1M5t+xhuY3uavCfNCfjTcRwxIBHKIQJ9ys/3TWja6Gqwv8YZeM=
+  matrix:
+    - FUNC_TEST_CHECK=1
+    - ROWDY_SETTINGS="sauceLabs.safari7-mac"
+    - ROWDY_SETTINGS="sauceLabs.chrome-win7"
+
+script:
+  # Run the "check" script only once.
+  - 'if [ "$FUNC_TEST_CHECK" ]; then ./node_modules/.bin/gulp check; else true; fi'
+  - '[ "$FUNC_TEST_CHECK" ] || npm test'
