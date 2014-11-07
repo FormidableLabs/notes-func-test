@@ -8,6 +8,7 @@
     "phantomjs": "1.9.9",
     "rowdy": "0.0.5",
     "selenium-standalone": "2.43.1-2.9.0-1",
+    "superagent": "0.20.0",
     "wd": "0.3.8"
   },
   "devDependencies": {

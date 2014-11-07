@@ -1,6 +1,7 @@
 /**
  * Global setup / teardown.
  */
+var superagent = require("superagent");
 var rowdy = require("rowdy");
 var client = rowdy.client;
 var adapter = rowdy.adapters.mocha;
@@ -8,30 +9,31 @@ var adapter = rowdy.adapters.mocha;
 // Globals
 var ELEM_WAIT = 200;
 
+// TODO: Move to global config.
+var HOST_URL = "http://127.0.0.1:3002";
+
 adapter.before();
 before(function (done) {
   client
     // Set our global timeout.
     .setImplicitWaitTimeout(ELEM_WAIT)
 
-    // Get the page a first time so that we can set LS.
-    .get("http://backbone-testing.com/notes/app/")
-    .clearLocalStorage()
-
     .nodeify(done);
 });
 
 adapter.beforeEach();
-
-adapter.afterEach();
-afterEach(function (done) {
-  // Clear all LS to start from scratch.
-  // Note: Should come *after* not before browser window / session begins.
-  // See: http://stackoverflow.com/questions/21259235
-  client
-    .clearLocalStorage()
-    .nodeify(done);
+beforeEach(function (done) {
+  // Nuke all notes.
+  superagent
+    .agent()
+    .del(HOST_URL + "/api/notes")
+    .send({})
+    .on("error", done)
+    .end(function () {
+      done()
+    });
 });
 
+adapter.afterEach();
 adapter.after();
 
