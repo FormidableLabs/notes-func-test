@@ -11,7 +11,7 @@ var _wrapFn = function (fn) {
 };
 
 // TODO: Move to global config.
-var HOST_URL = "http://backbone-testing.com/notes/app/";
+var HOST_URL = "http://127.0.0.1:3002";
 
 describe("notes", function () {
 
@@ -20,7 +20,7 @@ describe("notes", function () {
       .get(HOST_URL)
 
       // Create a note.
-      .waitForElementByCss("input#note-new-input")
+      .waitForElementByCss("input.qa-note-new-input")
       .type("Delete Test")
       .waitForElementByCss("button#note-create")
       .click()
@@ -47,7 +47,7 @@ describe("notes", function () {
       .get(HOST_URL)
 
       // Create a note.
-      .waitForElementByCss("input#note-new-input")
+      .waitForElementByCss("input.qa-note-new-input")
       .type("Edit Test")
       .waitForElementByCss("button#note-create")
       .click()
@@ -62,7 +62,7 @@ describe("notes", function () {
       .click()
       .url()
       .then(function (url) {
-        expect(url).to.match(/\/notes\/app\/#note\/.*\/edit/);
+        expect(url).to.match(/\/note\/.*\/edit$/);
       })
       .waitForElementByCss("#input-title")
       .getValue()
