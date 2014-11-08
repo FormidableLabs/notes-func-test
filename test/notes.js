@@ -4,15 +4,11 @@
 var client = require("rowdy").client;
 var asserters = require("wd").asserters;
 
-// TODO: Move to global config.
-// TODO: rename this file.
-var HOST_URL = "http://127.0.0.1:3002";
-
 describe("notes", function () {
 
   it("adds a note and deletes it", function (done) {
     client
-      .get(HOST_URL)
+      .get(global.HOST_URL)
 
       // Create a note.
       .waitForElementByCss("input[data-qa-name='note-new-input']")
@@ -38,7 +34,7 @@ describe("notes", function () {
 
   it("adds a note and edits it", function (done) {
     client
-      .get(HOST_URL)
+      .get(global.HOST_URL)
 
       // Create a note.
       .waitForElementByCss("input[data-qa-name='note-new-input']")
