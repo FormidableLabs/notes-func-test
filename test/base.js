@@ -30,7 +30,7 @@ beforeEach(function (done) {
     .send({})
     .on("error", done)
     .end(function () {
-      done()
+      done();
     });
 });
 

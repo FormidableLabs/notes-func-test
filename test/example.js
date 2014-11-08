@@ -2,6 +2,7 @@
  * Example tests.
  */
 var client = require("rowdy").client;
+var asserters = require("wd").asserters;
 
 // TODO: Move to global config.
 // TODO: rename this file.
@@ -18,20 +19,24 @@ describe("notes", function () {
       .type("Delete Test")
       .waitForElementByCss("button[data-qa-name='note-new-create']")
       .click()
-      .waitForElementByCss(".notes-item .note-title")
+      .waitForElementByCss("[data-qa-name='note-item']:last-child",
+        asserters.textInclude("Delete Test"))
       .text()
       .then(function (text) {
         expect(text).to.equal("Delete Test");
       })
 
       // Delete a note
-      .waitForElementByCss(".notes-item .note-delete")
+      // TODO REMOVE?
+      .waitForElementByCss(
+        "[data-qa-name='note-item']:last-child " +
+        "[data-qa-name='note-item-delete']")
       .click()
 
       .nodeify(done);
   });
 
-  it("adds a note and edits it", function (done) {
+  it.skip("adds a note and edits it", function (done) {
     client
       .get(HOST_URL)
 
