@@ -65,7 +65,38 @@ describe("notes", function () {
         .nodeify(done);
     });
 
-    it("adds a note and views it");
+    it("adds a note and views it", function (done) {
+      client
+        .get(global.HOST_URL)
+
+        // Create a note.
+        .waitForElementByCss("input[data-qa-name='notes-new-input']")
+        .type("View Test")
+        .waitForElementByCss("button[data-qa-name='notes-new-create']")
+        .click()
+        .waitForElementByCss("[data-qa-name='notes-item-title']")
+        .text()
+        .then(function (text) {
+          expect(text).to.equal("View Test");
+        })
+
+        // View the note by clicking on the title.
+        .waitForElementByCss("[data-qa-name='notes-item-title']")
+        .click()
+
+        // Check new URL.
+        .url()
+        .then(function (url) {
+          expect(url).to.match(/\/note\/[0-9]*\/view$/);
+        })
+        .waitForElementByCss("[data-qa-name='note-view-title']")
+        .text()
+        .then(function (text) {
+          expect(text).to.equal("View Test");
+        })
+
+        .nodeify(done);
+    });
   });
 
 });
