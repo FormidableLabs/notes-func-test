@@ -1,10 +1,10 @@
 /**
  * Global setup / teardown.
  */
-var superagent = require("superagent");
 var rowdy = require("rowdy");
 var client = rowdy.client;
 var adapter = rowdy.adapters.mocha;
+var api = require("../utils/api");
 
 adapter.before();
 before(function (done) {
@@ -18,14 +18,7 @@ before(function (done) {
 adapter.beforeEach();
 beforeEach(function (done) {
   // Nuke all notes.
-  superagent
-    .agent()
-    .del(global.HOST_URL + "/api/notes")
-    .send({})
-    .on("error", done)
-    .end(function () {
-      done();
-    });
+  api.delNotes(done);
 });
 
 adapter.afterEach();
