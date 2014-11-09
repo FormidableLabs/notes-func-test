@@ -11,20 +11,20 @@ describe("notes", function () {
         .get(global.HOST_URL)
 
         // Create a note.
-        .waitForElementByCss("[data-qa-name='note-new-input']")
+        .waitForElementByCss("[data-qa-name='notes-new-input']")
         .type("Delete Test")
-        .waitForElementByCss("[data-qa-name='note-new-create']")
+        .waitForElementByCss("[data-qa-name='notes-new-create']")
         .click()
-        .waitForElementByCss("[data-qa-name='note-item-title']")
+        .waitForElementByCss("[data-qa-name='notes-item-title']")
         .text()
         .then(function (text) {
           expect(text).to.equal("Delete Test");
         })
 
         // Delete it.
-        .waitForElementByCss("[data-qa-name='note-item-delete']")
+        .waitForElementByCss("[data-qa-name='notes-item-delete']")
         .click()
-        .safeEval("!!document.querySelector(\"[data-qa-name='note-item']\")")
+        .safeEval("!!document.querySelector(\"[data-qa-name='notes-item']\")")
         .then(function (hasNotes) {
           expect(hasNotes).to.be.false;
         })
@@ -37,18 +37,18 @@ describe("notes", function () {
         .get(global.HOST_URL)
 
         // Create a note.
-        .waitForElementByCss("input[data-qa-name='note-new-input']")
+        .waitForElementByCss("input[data-qa-name='notes-new-input']")
         .type("Edit Test")
-        .waitForElementByCss("button[data-qa-name='note-new-create']")
+        .waitForElementByCss("button[data-qa-name='notes-new-create']")
         .click()
-        .waitForElementByCss("[data-qa-name='note-item-title']")
+        .waitForElementByCss("[data-qa-name='notes-item-title']")
         .text()
         .then(function (text) {
           expect(text).to.equal("Edit Test");
         })
 
         // Edit the note.
-        .waitForElementByCss("[data-qa-name='note-item-edit']")
+        .waitForElementByCss("[data-qa-name='notes-item-edit']")
         .click()
 
         // Check new URL.
