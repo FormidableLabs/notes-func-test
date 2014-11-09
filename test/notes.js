@@ -16,7 +16,7 @@ describe("notes", function () {
         .type("Delete Test")
         .waitForElementByCss("[data-qa-name='note-new-create']")
         .click()
-        .waitForElementByCss("[data-qa-name='note-item']")
+        .waitForElementByCss("[data-qa-name='note-item-title']")
         .text()
         .then(function (text) {
           expect(text).to.equal("Delete Test");
