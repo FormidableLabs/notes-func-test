@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Notes app functional tests",
   "dependencies": {
+    "async": "^0.9.0",
     "chai": "1.9.1",
     "mocha": "1.21.4",
     "phantomjs": "1.9.12",

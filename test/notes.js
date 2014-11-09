@@ -1,11 +1,54 @@
 /**
  * Example tests.
  */
+var async = require("async");
+var superagent = require("superagent");
 var client = require("rowdy").client;
+
+// Helpers.
+var _postNote = function (title, cb) {
+  superagent
+    .agent()
+    .post(global.HOST_URL + "/api/notes")
+    .send({
+      title: title,
+      text: "Text for " + title,
+      createdAt: new Date()
+    })
+    .on("error", cb)
+    .end(function () {
+      cb();
+    });
+};
+
+var _qsAll = function (sel, extra) {
+  return "document.querySelectorAll(\"" + sel + "\")" + extra;
+};
 
 describe("notes", function () {
 
   describe("items", function () {
+
+    it("displays existing notes", function (done) {
+      async.auto({
+        note1: function (cb) { _postNote("Note 1", cb); },
+        note2: function (cb) { _postNote("Note 2", cb); },
+        note3: function (cb) { _postNote("Note 3", cb); }
+      }, function (err) {
+        if (err) { return done(err); }
+
+        client
+          .get(global.HOST_URL)
+
+          .safeEval(_qsAll("[data-qa-name='notes-item']", ".length"))
+          .then(function (numNotes) {
+            expect(numNotes).to.equal(3);
+          })
+
+          .nodeify(done);
+      });
+    });
+
     it("adds a note and deletes it", function (done) {
       client
         .get(global.HOST_URL)
@@ -24,9 +67,9 @@ describe("notes", function () {
         // Delete it.
         .waitForElementByCss("[data-qa-name='notes-item-delete']")
         .click()
-        .safeEval("!!document.querySelector(\"[data-qa-name='notes-item']\")")
-        .then(function (hasNotes) {
-          expect(hasNotes).to.be.false;
+        .safeEval(_qsAll("[data-qa-name='notes-item']", ".length"))
+        .then(function (numNotes) {
+          expect(numNotes).to.equal(0);
         })
 
         .nodeify(done);
