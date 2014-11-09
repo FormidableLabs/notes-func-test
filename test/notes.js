@@ -16,6 +16,12 @@ describe("notes", function () {
         .type("Delete Test")
         .waitForElementByCss("[data-qa-name='note-new-create']")
         .click()
+        .sleep(200)
+        // //.eval("$(\"[data-qa-name='note-new-input']\").parent().parent().html()")
+        // .eval("$(\"[data-qa-name='note-item-title']\").text()")
+        // .then(function (data) {
+        //   console.log("TODO HERE", data);
+        // })
         .waitForElementByCss("[data-qa-name='note-item-title']")
         .text()
         .then(function (text) {
