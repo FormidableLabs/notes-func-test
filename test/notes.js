@@ -2,7 +2,6 @@
  * Example tests.
  */
 var client = require("rowdy").client;
-var asserters = require("wd").asserters;
 
 describe("notes", function () {
 
@@ -16,29 +15,24 @@ describe("notes", function () {
         .type("Delete Test")
         .waitForElementByCss("[data-qa-name='note-new-create']")
         .click()
-        .sleep(200)
-        // //.eval("$(\"[data-qa-name='note-new-input']\").parent().parent().html()")
-        // .eval("$(\"[data-qa-name='note-item-title']\").text()")
-        // .then(function (data) {
-        //   console.log("TODO HERE", data);
-        // })
         .waitForElementByCss("[data-qa-name='note-item-title']")
         .text()
         .then(function (text) {
           expect(text).to.equal("Delete Test");
         })
 
-        // // Delete a note
-        // // TODO REMOVE?
-        // .waitForElementByCss(
-        //   "[data-qa-name='note-item']:last-child " +
-        //   "[data-qa-name='note-item-delete']")
-        // .click()
+        // Delete it.
+        .waitForElementByCss("[data-qa-name='note-item-delete']")
+        .click()
+        .safeEval("!!document.querySelector(\"[data-qa-name='note-item']\")")
+        .then(function (hasNotes) {
+          expect(hasNotes).to.be.false;
+        })
 
         .nodeify(done);
     });
 
-    it.skip("adds a note and edits it", function (done) {
+    it("adds a note and edits it", function (done) {
       client
         .get(global.HOST_URL)
 
@@ -47,25 +41,26 @@ describe("notes", function () {
         .type("Edit Test")
         .waitForElementByCss("button[data-qa-name='note-new-create']")
         .click()
-        .waitForElementByCss("[data-qa-name='note-item']",
-          asserters.textInclude("Edit Test"))
+        .waitForElementByCss("[data-qa-name='note-item-title']")
         .text()
         .then(function (text) {
           expect(text).to.equal("Edit Test");
         })
 
         // Edit the note.
-        // .waitForElementByCss(".notes-item .note-edit")
-        // .click()
-        // .url()
-        // .then(function (url) {
-        //   expect(url).to.match(/\/note\/.*\/edit$/);
-        // })
-        // .waitForElementByCss("#input-title")
-        // .getValue()
-        // .then(function (val) {
-        //   expect(val).to.equal("Edit Test");
-        // })
+        .waitForElementByCss("[data-qa-name='note-item-edit']")
+        .click()
+
+        // Check new URL.
+        .url()
+        .then(function (url) {
+          expect(url).to.match(/\/note\/[0-9]*\/edit$/);
+        })
+        .waitForElementByCss("[data-qa-name='note-edit-title']")
+        .getValue()
+        .then(function (val) {
+          expect(val).to.equal("Edit Test");
+        })
 
         .nodeify(done);
     });
