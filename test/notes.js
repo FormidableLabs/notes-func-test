@@ -1,6 +1,3 @@
-/**
- * Example tests.
- */
 // Client-side proxies.
 /*globals document */
 var async = require("async");
