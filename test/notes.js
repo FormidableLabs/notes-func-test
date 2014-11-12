@@ -66,9 +66,9 @@ describe("notes", function () {
         .get(global.HOST_URL)
 
         // Create a note.
-        .waitForElementByCss("input[data-qa-name='notes-new-input']")
+        .waitForElementByCss("[data-qa-name='notes-new-input']")
         .type("Edit Test")
-        .waitForElementByCss("button[data-qa-name='notes-new-create']")
+        .waitForElementByCss("[data-qa-name='notes-new-create']")
         .click()
         .waitForElementByCss("[data-qa-name='notes-item-title']")
         .text()
@@ -99,9 +99,9 @@ describe("notes", function () {
         .get(global.HOST_URL)
 
         // Create a note.
-        .waitForElementByCss("input[data-qa-name='notes-new-input']")
+        .waitForElementByCss("[data-qa-name='notes-new-input']")
         .type("View Test")
-        .waitForElementByCss("button[data-qa-name='notes-new-create']")
+        .waitForElementByCss("[data-qa-name='notes-new-create']")
         .click()
         .waitForElementByCss("[data-qa-name='notes-item-title']")
         .text()
